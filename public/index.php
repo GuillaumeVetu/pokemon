@@ -8,9 +8,10 @@ require_once('../resources/function.php');
 $errors = [];
 
 // Affichage du lien d'insertion
+echo '<a href="insert.php" class="btn btn-primary">Ajouter un pokemon</a>';
 
+// Affichage de la liste des pokemon
 affichePokemon();
-
 
 // Fin du HTML
 require_once('footer.php');
