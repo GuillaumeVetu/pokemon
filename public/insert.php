@@ -23,6 +23,19 @@ if (formIsSubmit('insertPokemon')) {
   $attaque = $_POST['attaque'];
   $pokedex = $_POST['pokedex'];
 
+  // Fichier image
+  if (isset($_FILES['image'])) { // Si une image a été fournie par l'utilisateur
+    var_dump($_FILES);
+    //rename($_FILES['image']['tmp_name'], $_FILES['image']['tmp_name'].'.save');
+    // nom temporaire de l'image
+    $tmp_name = $_FILES['image']['tmp_name'];
+
+    // Récupération de l'extension du fichier en fonction de son type : http://php.net/manual/en/function.pathinfo.php
+    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+    $img_name = $_POST['nom'] . "." . $extension;
+
+    var_dump($extension);
+  }
   // Validation
   if (!filter_var($numero, FILTER_VALIDATE_INT, array("options" => array("min_range" => 1)))) {
     $form_errors['numero'] = "Le numéro doit être un nombre strictement supérieur à 0";
@@ -71,10 +84,11 @@ if (formIsSubmit('insertPokemon')) {
 
     // exécution de la requête préparée
     try {
-      $query->execute();
+      null;
+      //$query->execute();
 
       // Commande exécutée avec succès : redirection vers l'acceuil
-      header('Location: ./');
+      //header('Location: ./');
     } catch(PDOException $e) {
       // Il y a eu une erreur
       var_dump($e);
@@ -104,7 +118,7 @@ $image = "img/pokeball.png";
       <img class="img-fluid mx-auto" src="<?php echo $image; ?>" alt="" />
     </div> <!-- Col -->
     <div class="col-xs-12 col-sm-8">
-      <form method="post" id="insertPokemon">
+      <form method="post" id="insertPokemon" enctype="multipart/form-data">
         <input type="hidden" name="insertPokemon" value="1"/>
         <div class="form-control">
           <div>
